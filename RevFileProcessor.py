@@ -42,6 +42,10 @@ def format_date(date):
     except:
         return date
 
+
+col_index_first_month = 32
+col_index_first_quarter = 44
+col_count_of_full_year = 17
 header_row = []
 months = []
 # Iterate over the rows in the csv
@@ -52,20 +56,22 @@ for idx, row in enumerate(csv_reader):
         # Iterate over the money values under each date
         amounts = []
         for count in range(0, int(yearsDesiredToProcess)):
-            amounts += row[(30 + (count * 17)):(42 + (count * 17))]
+            amounts += row[(col_index_first_month + (count * col_count_of_full_year)):(
+                    col_index_first_quarter + (count * col_count_of_full_year))]
         for index, amount in enumerate(amounts):
             row[0] = format_date(row[0])
             row[7] = format_date(row[7])
             row[8] = format_date(row[8])
             row[9] = format_date(row[9])
             # Write the values into the row
-            csv_writer.writerow(row[0:30] + [format_date(months[index])] + [amount])
+            csv_writer.writerow(row[0:col_index_first_month] + [format_date(months[index])] + [amount])
     else:
         header_row = row
         for count in range(0, int(yearsDesiredToProcess)):
-            months += row[(30 + (count * 17)):(42 + (count * 17))]
+            months += row[(col_index_first_month + (count * col_count_of_full_year)):(
+                        col_index_first_quarter + (count * col_index_first_month))]
         # Set headers for output file
-        csv_writer.writerow(row[0:30] + ["Month", "Amount"])
+        csv_writer.writerow(row[0:col_index_first_month] + ["Month", "Amount"])
 csv_file.flush()
 csv_output_file.flush()
 csv_file.close()
