@@ -14,7 +14,7 @@ root.withdraw()
 filename = os.path.abspath(
     askopenfilename(initialdir="/", title="Select csv file", filetypes=(("CSV Files", "*.csv"),)))
 # Set output file name
-output_name = filename.rsplit('.')
+output_name = filename.rsplit('.', 1)
 del output_name[len(output_name) - 1]
 if not output_name:
     sys.exit()
@@ -69,7 +69,7 @@ for idx, row in enumerate(csv_reader):
         header_row = row
         for count in range(0, int(yearsDesiredToProcess)):
             months += row[(col_index_first_month + (count * col_count_of_full_year)):(
-                        col_index_first_quarter + (count * col_index_first_month))]
+                        col_index_first_quarter + (count * col_count_of_full_year))]
         # Set headers for output file
         csv_writer.writerow(row[0:col_index_first_month] + ["Month", "Amount"])
 csv_file.flush()
